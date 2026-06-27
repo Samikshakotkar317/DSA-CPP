@@ -38,26 +38,32 @@
     }
  }
 
-Node * deleteHead(Node* head){
-    if(head == NULL){
-        return head;
-    }
-    if(head->next == NULL){
-        delete head;
+Node * deleteTail(Node* head){
+    if(head == NULL || head->next == NULL){
         return NULL;
     }
-    Node* temp = head;
-    head = head->next;
-    head->prev = NULL;
-    temp->next = NULL;
-    free(temp); 
+    Node* tail = head;
+    while(tail->next != NULL){
+        tail = tail->next;
+    }
+    
+    // if(tail->next == NULL){
+    //     tail->prev->next = nullptr;
+    //     tail->prev = nullptr;
+    //     delete(tail);
+    // }
+
+    Node* temp = tail->prev;
+    temp->next = nullptr;
+    tail->prev = nullptr;
+    delete(tail);
     return head;
 }
 
  int main(){
     vector<int> arr = {5,9,7,6};
     Node* head = convertArr2LL(arr);
-    head = deleteHead(head);
+    head = deleteTail(head);
     print(head);
     return 0;
  }
